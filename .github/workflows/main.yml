@@ -1,30 +1,24 @@
 name: WhatsApp Bot Always On
+
 on:
-  workflow_dispatch: # Optional: manual trigger
-concurrency:
-  group: whatsapp-bot
-  cancel-in-progress: true
+  workflow_dispatch: # Manual trigger
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 360  # Maximum of 6 hours
+    timeout-minutes: 360 # Max 6 hours (GitHub limit)
+
     steps:
-name: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-name: Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-name: Install dependencies
+      - name: Install dependencies
         run: npm install
 
-name: Run WhatsApp bot in infinite loop
-        run: |
-          echo "Starting WhatsApp bot..."
-          while true; do
-            npm start
-            echo "Bot crashed or exited. Restarting in 5 seconds..."
-            sleep 5
-          done
+      - name: Start WhatsApp bot
+        run: npm start
